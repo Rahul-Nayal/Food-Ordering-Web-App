@@ -1,0 +1,135 @@
+{% extends 'base.html' %}
+{% block head %}
+	<style>
+		/*body{
+			background-color: grey;
+		}*/
+		.container{
+			width: 60%;
+			background-color: white !important;
+			border-radius:10px;
+			border:2px solid #ddd;
+
+		}
+		.img-container{
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-bottom: 1rem;
+			height: 100%;
+		}
+		.img-container img{
+			max-width: 100%;
+			height: auto;
+		}
+		.text-center{
+			text-align: center;
+		}
+		.main{
+			padding: 0px;
+			margin: 0px;
+		}
+
+	</style>
+
+{% endblock %}
+
+{% block content %}
+<div class="main"> 
+	
+<section class="signup py-5">
+	<div class="container main-container p-0">
+		<div class="row signup-content">
+			<div class="col-sm-6 signup-form">
+				<h2 class="mb-1 mt-1 text-center p-3">Sign Up</h2>
+				<form class="p-3" action="" method="post">
+					{% csrf_token %}
+					<div class="mb-2">
+						<label class="form-input-label" for="name">Username</label>
+						<input type="text" class="form-control" id="name" placeholder="" value="" name="name"  required >
+					</div>
+					
+
+					<div class="mb-2">
+						<label class="form-input-label" for="email">Email</label>
+						<input type="email" class="form-control" id="email" placeholder="" value="" name="email" onkeyup="checkEmail()" required >
+					</div>
+					<div id="msz" class="py-1">
+						
+					</div>
+					<div class="mb-2">
+						<label class="form-input-label" for="password">Password</label>
+						<input type="password" class="form-control" id="password" placeholder="" value="" name="password" onkeyup="checkPass()" required> 
+						 <!-- onkeyup constraint is used for checking the input each time when we pressing the key. -->
+					</div>
+					<div class="mb-2">
+						<label class="form-input-label" for="confirmPassword">Confirm Password</label>
+						<input type="password" class="form-control" id="confirmPassword" placeholder="" value="" name="password" onkeyup="checkPass()" required>
+					</div>
+					<div id="pass" class="py-1"></div>
+					<div class="mb-4">
+						<label class="form-input-label" for="Number">Contact Number</label>
+						<input type="tel" class="form-control" id="Number" placeholder="" value="" name="contact_num" required>
+					</div>
+					<div class="mb-2">
+						<input type="submit" class="btn btn-primary" value="Register" id="signup">
+					</div>
+				</form>
+			</div>
+			<div class="col-sm-6 d-flex flex-column align-items-center">
+				<div class="img-container">
+					<img src="/static/img/register.jpeg">	
+				</div>
+				<a href="{% url 'user_login' %}" class="text-center text-black fw-bold" style="text-decoration: none;">I am already member</a>
+			</div>
+
+		</div>
+	</div>
+</section>
+</div>
+
+{% if status %}
+	<script>
+		alert("{{status}}")
+		window.location ="/"
+	</script>
+
+{% endif %}
+<script>
+	
+
+	function checkPass(){
+		var p = $('#password').val();
+		var cp = $('#confirmPassword').val();
+		if (p==cp){
+			$('#signup').attr('disabled',false).css({'background':'#6dabe4'});
+			$('#pass').html('');
+		}
+		else{
+			$('#signup').attr('disabled',true).css({'background':'red'});
+			$('#pass').html("<small> Password didn't matched! </small>");
+		}
+	}
+
+	function checkEmail(){
+		var email = document.getElementById('email').value;
+		$.ajax({
+			url: "{% url 'check_user' %}",
+			type: 'get',
+			data:{usern:email},
+			success:function(data){
+				if (data.status==0){
+					$('#msz').html("");
+					$('#signup').attr('disabled',false).css({'background':'#6dabe4'}); 
+
+				}
+				else{
+					$('#msz').html("<small>"+data.message+"</small>");
+					$('#signup').attr('disabled',true).css({'background':'red'});
+				}
+			}
+		})
+	}
+
+</script>
+{% endblock%}

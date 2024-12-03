@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+    <style>	
+
+        .main {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            padding: 0;
+            margin-bottom: -100px;
+        }
+
+        .container {
+            padding: 20px;
+            width: 60%;
+            max-width: 500px;
+            border-radius: 10px;
+            border: 2px solid #ddd;
+        }
+
+        .icon{
+        	border-right: none;
+        	height: 40px;
+        	width: 40px;
+        	display: inline-flex;
+        	align-items: center;
+        	justify-content: center;
+        }
+
+        /*.login-form{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }*/
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="main">
+        <div class="container">
+            <div class="row">
+                
+
+                <div class="col-md-6 ">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                            
+                        <div>
+                            {% if status%}
+                            <div class="form-group text-center" style="background-color: red; color: white;border-radius: 5px;">
+                                <p class="alert {{class}}" style="font-size: 10px;">{{status}}</p>
+                            </div>
+                            {% endif %}
+                            <div class="form-group">
+                                <label>Email</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text icon"><i class="fas fa-user"></i></span>
+                                    </div>
+                                    <input type="email" name="email" class="form-control" id="email">
+                                </div>                            
+                            </div>
+                            <div class="form-group py-3">
+                                <label class="form-input-label" for="password">Password</label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text icon"><i class="fa-solid fa-unlock"></i></span>
+                                    </div>
+                                    <input type="password" name="password" class="form-control" id="password">
+                                </div>
+                                
+                            </div>
+                            <div class="form-group">
+                                <input type="submit" name="submit" value="Login" class="btn btn-success">
+                            </div>
+                        </div>
+                        
+                    </form>
+                </div>
+
+                <div class="col-md-6 text-center">
+                        <div class="login-image">
+                            <img src="{% static 'img/login.jpeg' %}" style="width: 200px; height: 200px;"><br>
+                            <a href="{% url 'signup' %}" style="text-decoration:none;">Create an account</a>
+                        </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

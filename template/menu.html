@@ -1,0 +1,47 @@
+<!-- menu.html -->
+{% extends "base.html" %}
+{% block content %}
+<!-- Page Header Start -->
+<div class="page-header mb-0">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 py-4 text-center">
+                <h2>OUR MENU</h2>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Page Header End -->
+
+<!-- Food Start -->
+<div class="food mt-0">
+    <div class="container">
+        <div class="row justify-content-center">
+            {% for dish in dishes %}
+            <div class="col-sm-3 mb-5 ms-4 food_card">
+                <div class="food-item">
+                    <a href="/media/{{ dish.image }}" target="_blank">
+                        <img src="/media/{{ dish.image }}" class="food_item_img">
+                    </a>
+                    <h3 class="my-3 text-center">{{ dish.dish_name }}</h3>
+                    <p>
+                        {% for detail in dish.processed_details %}
+                            <p>{{ detail }}</p>
+                        {% endfor %}
+                    </p>
+                    <hr>
+                    <h5 class="menu-text" style="font-weight: normal;">
+                        <div class="product_buy text-center">    
+                            <button class="add-cart-button btn me-1 update-cart" data-dish="{{ dish.id }}" data-action="add">Add To Cart</button>
+                            <strong class="ms-2" style="display:inline-block;">Rs:{{ dish.price|floatformat:2 }}</strong>
+                        </div>
+                    </h5>
+                </div>
+            </div>
+        {% endfor %}
+        
+        </div>
+    </div>
+</div>
+<!-- Food End -->
+{% endblock %}

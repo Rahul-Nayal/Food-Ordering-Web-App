@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+
+
+{% block content %}
+
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="card"> 
+					<a class="btn btn-outline-dark special_btn "  href = "{% url 'menu' %}" style="text-decoration:none;"><span style="float:left;">&#x2190;</span>Continue Shopping</a>
+					<hr>
+					<br>
+					<table class="table  table-borderless" >
+						<tr>
+							<th><h5>Items : <strong> {{order.get_cart_item}} </strong>  </h5> </th>
+							<th><h5>Total : <strong>Rs {{order.get_cart_total}}</strong> </h5> </th>
+							<th>
+								<a style="float: right; margin-right: 10px;" class="btn btn-success" href="{% url 'checkout' %}">Checkout</a>
+							</th>
+						</tr>
+					</table>
+
+				</div>
+
+
+				<div class="card mt-5" >
+					<div class="cart-row mt-3">
+						<div style="flex: 2;"></div>
+						<div style="flex: 2;"><strong>Item</strong></div>
+						<div style="flex:1;"><strong>Price</strong></div>
+						<div style="flex:1;"><strong>Quantity</strong></div>
+						<div style="flex:1;"><strong>Total</strong></div>
+						
+					</div>
+					{% for item in items %}
+					<div class="cart-row mt-5">
+						<div style="flex: 2;"><img class="cart-image" src="/media/{{item.dish.image}}"></div>
+						<div style="flex: 2;">{{item.dish.dish_name}}</div>
+						<div style="flex:1;">{{item.dish.price| floatformat:2}}</div>
+						<div style="flex:1;">
+							<p class="quantity">{{item.quantity}}</p>
+							<div class="quantity">
+								<img src="{% static 'img/up-arrow.jpeg' %}" class="chng-quantity-img update-cart" data-action = "add" data-dish = "{{item.dish.id}}">
+								<img src="{% static 'img/down-arrow.jpeg' %}"  class="chng-quantity-img update-cart" data-action = "remove" data-dish = "{{item.dish.id}}">
+							</div>
+
+						</div>
+						<div style="flex:1;"><p>Rs: {{item.get_total}} </p></div>
+							
+					</div>						
+					{% endfor %}
+				</div>
+					
+			</div>
+
+		</div>
+	</div>
+
+{% endblock %}

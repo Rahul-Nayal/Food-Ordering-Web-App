@@ -1,0 +1,160 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Home {% endblock title %}
+{% block content %}
+
+
+    <!-- Carousel Start -->
+	<div id="carouselExampleRide" class="carousel slide" data-bs-ride="true">
+	  <div class="carousel-indicators">
+	    <button type="button" data-bs-target="#carouselExampleRide" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+	    <button type="button" data-bs-target="#carouselExampleRide" data-bs-slide-to="1" aria-label="Slide 2"></button>
+	  </div>
+	  <div class="carousel-inner ">
+	    <div class="carousel-item active">
+	        <img src="{% static 'img/carousel1.jpeg'%}" class="d-block w-100 image" alt="...">
+	        <div class="carousel-caption  d-md-block">
+	                <strong><h5>SAVOR EVERY MOMENTS</h5></strong>
+	                <p> Welcome to a feast for the senses! We’re excited to have you with us and can’t wait for you to experience the culinary magic we’ve crafted just for you.</p>
+	                <a class="btn btn-primary" href="{% url 'menu' %}">View Menu</a>
+	        </div>
+	    </div>
+	    <div class="carousel-item">
+	      <img src="{% static 'img/carousel3.jpeg'%}" class="d-block w-100" alt="...">
+	    </div>
+	  </div>
+	  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="prev">
+	    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+	    <span class="visually-hidden">Previous</span>
+	  </button>
+	  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleRide" data-bs-slide="next">
+	    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+	    <span class="visually-hidden">Next</span>
+	  </button>
+	</div>
+
+	<!-- about us section -->
+	<div class="container-fluid about_us">
+		<div class="row py-5">
+			<div class="col-md-6 ">
+				<img src="/static/img/about-us.jpeg" class="about_us_img" style="height: 400px; width: 100%;">
+			</div>
+			<div class="col-md-6" style="padding-top: 80px;">
+				<small>About Us</small>
+				<h3 class="pb-3">Cooking Since 2000</h3>
+				<p>Monterey Pizza & Asian Zap serves the pondicherry area with delicious pizza cuisine. Our specialty dishes have been well-crafted to create a delightful culinary experience. Enjoy the convenience of pickup or delivery when ordering through Beyond Menu.</p>
+
+			</div>
+		</div>
+	</div>
+
+
+	<!-- category section -->
+	<div class="category py-5">
+		<div class="container">
+			<div class="row  justify-content-center">
+				<div class="col-md-12 text-center">
+					<h class="display-5">CATEGORIES ({{ category|length}})</h>
+				</div>	
+				{% for c in category %}
+					<div class="col-sm-3  text-center  category_card">
+						<div class="text-center p-1">
+							<h3>"{{c.category_name}}"</h3>
+						</div>
+						<div >
+							<img src="/media/{{c.cover_img}}" alt="chef">
+						</div>
+						<div class="description">
+							<small>"{{c.description}}"</small>
+						</div>
+						<a href="{% url 'all_dishes' %}?q={{c.id}}" class="py-2">View {{c.category_name}}</a>
+					</div>
+				
+				{% endfor %}
+			</div>
+		</div>
+	</div>
+
+
+	<!-- menu section -->
+	<div class="menu py-5">
+		<div class="container-fluid">
+			<div class="row justify-content-center">
+				<div class="col-md-12 text-center mb-4">
+					<h class="display-5">FAMOUS ITEMS</h>
+				</div>
+				{% for dish in dishes %}
+					<div class="col-3  menu_card">
+						<div class="text-center">
+							<h5>{{dish.dish_name}}</h5>
+						</div>
+						<div class="py-3">
+							<img src="/media/{{dish.image}}" alt="{{dish.dish_name}}">
+						</div>
+						<div class="product_buy">
+							<strong class="me-2">Rs: {{dish.price}}</strong>
+							<button class="buy-button update-cart" data-dish="{{dish.id}}" data-action="add">Add To Cart</button>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+		
+	</div>
+
+
+
+	<!-- contact section -->
+	
+	<div class="container">
+		<div class="row">
+			<div class="col-md-12 text-center p-5 ">
+				<h5>Contact Us</h5>
+				<h1>Contact For Any Query</h1>	
+			</div>
+
+			<div class="col-md-6 p-3">
+				<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3903.6434738835683!2d79.83052991025498!3d11.929881388249065!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a53622ba83d0069%3A0xaa66d5593e779675!2s14%2C%20Suffren%20St%2C%20White%20Town%2C%20Puducherry%2C%20605001!5e0!3m2!1sen!2sin!4v1724588482058!5m2!1sen!2sin" width="100%" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+			</div>
+			<div class="col-md-6 p-3">
+				<form accept="" method="post">
+					{% csrf_token %}
+					<div class="form-group py-3">
+						<input type="text" class="form-control" name ="name" placeholder="Enter Name...">
+					</div>
+
+					<div class="form-group">
+						<input type="email" class="form-control" name="email" placeholder="Enter Your Email...">
+					</div>
+
+					<div class="form-group py-3">
+						<input type="tel" class="form-control" name="contact" placeholder="Contact Number...">
+					</div>
+
+					<div class="form-group">
+						<input type="text" class="form-control" name="subject" placeholder="subject">
+					</div>
+
+					<div class="form-group py-3">
+						<textarea class="form-control" name="message" rows="5"></textarea>
+					</div>
+
+					<div class="form-group ">
+						<input type="submit" class="btn btn-lg btn-warning text-white" value="Send Message">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+
+
+	{% if status %}
+		<script>
+			alert("{{status}}");
+			
+		</script>
+	{% endif %}
+
+
+{% endblock %}
